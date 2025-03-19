@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style> 
+  body {
+    background-color: azure;
+    color: black;
+  }
+
+  h2{
+    color: darkblue;
+    font-style: italic;
+    text-decoration: none;
+  }
+
+  input{
+    background-color: gainsboro;
+    color: black;
+    font-style: italic;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 5px;
+    text-decoration: none;
+  }
+
+  label{
+    color: black;
+    text-decoration: none;
+  }
+a{
+    color: navy;
+    font-style: italic;
+    text-decoration: none;
+}
+    </style>
+</head>
+<body>
+    
+    <h2>Faça seu Cadastro em nosso site!</h2>
+
+    <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" required>
+
+       
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" required>
+
+ 
+        <label for="confirm-password">Confirmar Senha:</label>
+        <input type="password" id="confirm-password" name="confirm-password" required>
+
+       
+        <label for="phone">Telefone (opcional):</label>
+        <input type="tel" id="phone" name="phone">
+
+        
+        <label for="birthdate">Data de Nascimento:</label>
+        <input type="date" id="birthdate" name="birthdate">
+
+    
+        <label class="terms">
+            <input type="checkbox" id="terms" name="terms" required>
+            Eu li e aceito os <a href="termo.html">Termos de Uso</a> e a <a href="politica.html">Política de Privacidade</a>.
+        </label>
+
+
+        <a href="home.html">Voltar!</a>
+
+</body>
+</html>

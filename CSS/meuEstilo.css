@@ -1,0 +1,16 @@
+   
+#Salvar{
+   background-color: darkblue;
+   color: azure;
+    border-radius: 15px;
+}
+#Cancelar {
+    background-color: darkgray;
+    color: azure;
+    border-radius: 15px;
+}
+#Excluir {
+    background-color: darkred;
+    color: azure;
+    border-radius: 15px;
+}
