@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Cadastro</title>
+    <style>
+
+        
+a {
+    color: crimson;
+    text-decoration: none; 
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: darkred; 
+}
+
+
+h2 {
+    color: darkred;
+    font-style: italic;
+    font-size: 2em; 
+    margin-bottom: 20px; 
+    text-align: center; 
+}
+
+
+label {
+    color: #333;
+    font-style: italic;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block; 
+    font-size: 1.1em; 
+}
+
+
+input {
+    width: 100%; 
+    padding: 10px;
+    margin: 10px 0 20px 0; 
+    border-radius: 10px;
+    border: 1px solid #ccc; 
+    font-size: 1em;
+    box-sizing: border-box;
+    background-color: #f9f9f9; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+}
+
+
+input:focus {
+    border-color: #ff6347;
+    box-shadow: 0 0 5px rgba(255, 99, 71, 0.5);
+    outline: none;
+}
+
+
+button {
+    background-color: crimson;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+button:hover {
+    background-color: darkred; 
+}
+
+
+form {
+    max-width: 600px; 
+    margin: 0 auto; 
+    padding: 20px;
+    background-color: #fafafa; 
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+@media (max-width: 600px) {
+    input, button {
+        font-size: 1em; 
+    }
+
+    form {
+        padding: 15px;
+    }
+}
+
+        
+            </style>
+    <script>
+        function buscarEndereco() {
+            const cep = document.getElementById("cep").value
+            if (cep.length === 8 && /^\d+$/.test(cep)) {
+                fetch(`http://viacep.com.br/ws/${cep}/json`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.erro) {
+                            document.getElementById("rua").value = data.logradouro
+                            document.getElementById("bairro").value = data.bairro
+                            document.getElementById("cidade").value = data.localidade
+                            document.getElementById("uf").value = data.uf
+                        } else {
+                            alert("CEP não encontrado.")
+                        }
+                    })
+                    .catch(error => alert('Erro ao buscar o CEP.'))
+            } else {
+                alert("CEP inválido. O CEP deve conter 8 dígitos numéricos.")
+            }
+        }
+
+        function cadastrar() {
+            const nome = document.getElementById("nome").value
+            const email = document.getElementById("email").value
+            const fone = document.getElementById("fone").value
+            const cep = document.getElementById("cep").value
+            const rua = document.getElementById("rua").value
+            const bairro = document.getElementById("bairro").value
+            const cidade = document.getElementById("cidade").value
+            const uf = document.getElementById("uf").value
+
+            const cliente = { nome, email, fone, cep, rua, bairro, cidade, uf }
+
+            let clientes = JSON.parse(localStorage.getItem("clientes")) || []
+            clientes.push(cliente)
+            localStorage.setItem("clientes", JSON.stringify(clientes))
+
+            alert("Cliente cadastrado com sucesso!")
+            window.location.href = "listacadastro.html"
+        }
+    </script>
+</head>
+<body>
+    <h2>Cadastro de Cliente</h2>
+    <form onsubmit="event.preventDefault(); cadastrar();">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" required><br><br>
+
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" required><br><br>
+
+        <label for="fone">Telefone:</label>
+        <input type="tel" id="fone" required><br><br>
+
+        <h2>Endereço</h2>
+        <label for="cep">CEP:</label>
+        <input type="text" id="cep" maxlength="8" oninput="buscarEndereco()" required><br><br>
+
+        <label for="rua">Rua:</label>
+        <input type="text" id="rua" required><br><br>
+
+        <label for="bairro">Bairro:</label>
+        <input type="text" id="bairro" required><br><br>
+
+        <label for="cidade">Cidade:</label>
+        <input type="text" id="cidade" required><br><br>
+
+        <label for="uf">Estado (UF):</label>
+        <input type="text" id="uf" required><br><br>
+
+        <button type="submit">Cadastrar</button><br><br>
+        <a href="listacadastro.html">Ver lista de clientes</a>
+    </form>
+</body>
+</html>

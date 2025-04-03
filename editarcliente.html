@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Cliente</title>
+    <style>
+        a {
+    color: crimson;
+    text-decoration: none; 
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+  h2 {
+    color: darkred;
+    font-style: italic;
+    font-size: 2em; 
+    margin-bottom: 20px; 
+    text-align: center;
+  }
+
+label {
+    color: #333; 
+    font-style: normal; 
+    font-weight: bold; 
+    font-size: 1.1em;
+    display: block; 
+    margin-bottom: 8px; 
+}
+
+
+input {
+    width: 100%;
+    padding: 12px 15px; 
+    margin-bottom: 20px;
+    border-radius: 8px; 
+    border: 1px solid #ccc; 
+    background-color: #f9f9f9; 
+    font-size: 1em;
+    box-sizing: border-box; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+input:focus {
+    border-color: #ff6347; 
+    box-shadow: 0 0 8px rgba(255, 99, 71, 0.4); 
+    outline: none; 
+}
+
+button {
+    background-color: crimson;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+    </style>
+    <script>
+        function carregarDados() {
+            const clienteEditar = JSON.parse(localStorage.getItem("cliente-editar"))
+            
+            if (!clienteEditar) {
+                alert("Nenhum cliente para editar.")
+                window.location.href = "listacadastro.html"
+                return
+            }
+            
+            const { cliente, index } = clienteEditar
+
+           
+            document.getElementById("nome").value = cliente.nome
+            document.getElementById("email").value = cliente.email
+            document.getElementById("fone").value = cliente.fone
+            document.getElementById("cep").value = cliente.cep
+            document.getElementById("rua").value = cliente.rua
+            document.getElementById("bairro").value = cliente.bairro
+            document.getElementById("cidade").value = cliente.cidade
+            document.getElementById("uf").value = cliente.uf
+            
+           
+            document.getElementById("index").value = index
+        }
+
+        function salvarEdicao() {
+            const nome = document.getElementById("nome").value
+            const email = document.getElementById("email").value
+            const fone = document.getElementById("fone").value
+            const cep = document.getElementById("cep").value
+            const rua = document.getElementById("rua").value
+            const bairro = document.getElementById("bairro").value
+            const cidade = document.getElementById("cidade").value
+            const uf = document.getElementById("uf").value
+            const index = document.getElementById("index").value
+
+            const clienteEditado = { nome, email, fone, cep, rua, bairro, cidade, uf }
+
+            let clientes = JSON.parse(localStorage.getItem("clientes"))
+            clientes[index] = clienteEditado
+
+            localStorage.setItem("clientes", JSON.stringify(clientes))
+            alert("Cliente editado com sucesso!")
+            window.location.href = "listacadastro.html"
+        }
+
+        window.onload = carregarDados
+    </script>
+</head>
+<body>
+    <h2>Editar Cliente</h2>
+    <form onsubmit="event.preventDefault(); salvarEdicao();">
+        <input type="hidden" id="index">
+        
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" required><br><br>
+
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" required><br><br>
+
+        <label for="fone">Telefone:</label>
+        <input type="tel" id="fone" required><br><br>
+
+        <h2>Endereço</h2>
+        <label for="cep">CEP:</label>
+        <input type="text" id="cep" maxlength="8" required><br><br>
+
+        <label for="rua">Rua:</label>
+        <input type="text" id="rua" required><br><br>
+
+        <label for="bairro">Bairro:</label>
+        <input type="text" id="bairro" required><br><br>
+
+        <label for="cidade">Cidade:</label>
+        <input type="text" id="cidade" required><br><br>
+
+        <label for="uf">Estado (UF):</label>
+        <input type="text" id="uf" required><br><br>
+
+        <button type="submit">Salvar Alterações</button><br><br>
+        <a href="listacadastro.html">Voltar para a lista de clientes</a>
+    </form>
+</body>
+</html>

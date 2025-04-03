@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Clientes</title>
+    <style>
+     a {
+    color: darkred;
+    text-decoration: none; 
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+}
+
+
+table, th, td {
+    border: 1px solid #ddd; 
+}
+
+
+th, td {
+    padding: 12px; 
+    text-align: left; 
+    font-size: 1em; 
+    color: #333; 
+}
+
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold; 
+    text-transform: uppercase; 
+    border-bottom: 2px solid #ccc; 
+}
+
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+
+tr:hover {
+    background-color: #f1f1f1; 
+}
+
+
+.action-btn {
+    padding: 8px 15px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px; 
+    font-size: 0.9em; 
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
+.edit-btn {
+    background-color: orange;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #e6892b; 
+    transform: scale(1.05);
+}
+
+
+.delete-btn {
+    background-color: red;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #d33d3d; 
+    transform: scale(1.05); 
+}
+
+    </style>
+    <script>
+        function carregarClientes() {
+            const clientes = JSON.parse(localStorage.getItem("clientes")) || []
+            const tabela = document.getElementById("tabela-clientes")
+
+            if (clientes.length === 0) {
+                tabela.innerHTML = "<tr><td colspan='7'>Nenhum cliente cadastrado.</td></tr>"
+                return
+            }
+
+            clientes.forEach((cliente, index) => {
+                const row = document.createElement("tr")
+
+                row.innerHTML = `
+                    <td>${cliente.nome}</td>
+                    <td>${cliente.email}</td>
+                    <td>${cliente.fone}</td>
+                    <td>${cliente.cep}</td>
+                    <td>${cliente.rua}</td>
+                    <td>${cliente.bairro}</td>
+                    <td>${cliente.cidade} - ${cliente.uf}</td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="editarCliente(${index})">Editar</button>
+                        <button class="action-btn delete-btn" onclick="excluirCliente(${index})">Excluir</button>
+                    </td>
+                `
+                tabela.appendChild(row)
+            })
+        }
+
+        function excluirCliente(index) {
+    let clientes = JSON.parse(localStorage.getItem("clientes")) || []
+    if (index >= 0 && index < clientes.length) {
+        clientes = [...clientes.slice(0, index), ...clientes.slice(index + 1)]
+        localStorage.setItem("clientes", JSON.stringify(clientes))
+        alert("Cliente excluído com sucesso!")
+        carregarClientes()
+    } else {
+        alert("Erro ao excluir cliente!")
+    }
+}
+
+        function editarCliente(index) {
+            let clientes = JSON.parse(localStorage.getItem("clientes"))
+            const cliente = clientes[index]
+            if (confirm(`Editar dados do cliente: ${cliente.nome}?`)) {
+               
+                localStorage.setItem("cliente-editar", JSON.stringify({ cliente, index }))
+                window.location.href = "editarcliente.html"
+            }
+        }
+
+        window.onload = carregarClientes
+    </script>
+</head>
+<body>
+    <h2>Lista de Clientes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th>CEP</th>
+                <th>Rua</th>
+                <th>Bairro</th>
+                <th>Cidade/Estado</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-clientes">
+        
+        </tbody>
+    </table>
+    <br>
+    <a href="formulario.html">Cadastrar novo cliente</a>
+</body>
+</html>
